@@ -1,0 +1,488 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Canasta</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@600;700;800;900&family=Playfair+Display:wght@700&display=swap');:root{--plum:#100617;--gold:#ffc640;--felt:#073d35;--red:#d75151}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 22% 14%,#2a0b37 0,var(--plum) 48%,#080b0e 100%);color:#fff8ed;font:13px Nunito,sans-serif;overflow:hidden}.app{height:100vh;display:flex;flex-direction:column}.top{height:59px;display:flex;align-items:center;gap:12px;padding:0 15px;background:#0b0610;border-bottom:1px solid #583264}.crown{width:39px;height:39px;border:1px solid #774583;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#4f2061,#2a0b37);font-size:23px}.brand{font:29px 'Archivo Black';color:var(--gold);letter-spacing:-1.6px}.sub{font:italic 12px 'Playfair Display';color:#e5d7eb;align-self:flex-end;margin:0 0 7px -101px;transform:translateX(101px)}.version{font-size:10px;color:#f7c74f;font-weight:900;margin-left:13px}.settings{margin-left:auto;background:linear-gradient(#4e2365,#2c103c);border:1px solid #7d518d;border-radius:11px;color:#fff;padding:7px 14px;font:800 11px Nunito;cursor:pointer}.layout{height:calc(100vh - 59px);display:grid;grid-template-columns:230px 1fr;gap:10px;padding:5px 2px 7px}.rail{background:linear-gradient(180deg,#14071c,#1b0923 65%,#110615);padding:0 2px}.box{margin-bottom:8px;padding:13px 17px;background:#110819;border:1px solid #5e3a39;border-radius:15px}.round{text-align:center}.eyebrow{font-size:10px;letter-spacing:1.4px;font-weight:900}.round strong{display:block;color:var(--gold);font:27px 'Playfair Display'}.round small{font-size:10px}.box h3{font-size:10px;letter-spacing:1px;margin:0 0 9px}.score{display:grid;grid-template-columns:1fr auto;padding:7px 0;border-bottom:1px solid #39203d}.score:last-child{border:0}.score small{display:block;color:#d7b9d6;font-size:9px}.score b{color:#ffdc68;font:18px 'Playfair Display'}.start{width:100%;padding:10px;background:linear-gradient(#be586c,#77293d);border:1px solid #ce7483;border-radius:10px;color:white;font:900 14px Nunito;cursor:pointer}.history{font-size:10px;max-height:180px;overflow:auto}.history div{border-top:1px solid #39203d;padding:6px 0}.table{height:100%;position:relative;overflow:hidden;border:6px solid #3d144c;border-radius:39px;background:radial-gradient(circle at 30% 32%,#105d50 0,transparent 18%),repeating-radial-gradient(circle at 40% 50%,rgba(255,255,255,.02) 0 1px,transparent 1px 4px),linear-gradient(130deg,#0b4a40,var(--felt));box-shadow:inset 0 0 58px #001b18}.table:after{content:'CANASTA';position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);font:53px 'Archivo Black';color:#9bb06c0b;letter-spacing:-5px}.notice{position:absolute;z-index:10;right:24px;top:16px;max-width:330px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid #605333;border-radius:22px;background:#0c1313;color:#ffda69;padding:9px 17px;font-size:11px;font-weight:900}.seat{position:absolute;z-index:6;display:flex;gap:8px;align-items:center;min-width:116px;padding:7px 12px 7px 7px;border:1px solid #213131;border-radius:11px;background:linear-gradient(135deg,#15101d,#080c13);box-shadow:0 3px 9px #0004}.seat.active{border:2px solid #ffcf50;box-shadow:0 0 0 3px #ffc64035}.seat.cindy{top:12px;left:50%;transform:translateX(-50%)}.seat.cristi{left:12px;top:34%}.seat.daryl{left:12px;bottom:11%}.avatar{width:37px;height:37px;border:2px solid #e6b642;border-radius:50%;background-image:url('file:///C:/Users/glide/AppData/Local/Temp/codex-clipboard-0aae057e-8918-4a9a-b18f-8eaeba6b6d92.png');background-size:1920px 906px;background-origin:border-box;background-clip:border-box}.avatar.c{background-position:-1026px -93px}.avatar.r{background-position:-269px -341px}.avatar.d{background-position:-269px -695px}.seat b{font-size:12px;display:block}.seat small{font-size:9px;color:#decde4;white-space:nowrap}.piles{position:absolute;z-index:5;left:57%;top:48%;transform:translate(-50%,-50%);display:flex;gap:42px}.pile{text-align:center;position:relative}.deck{width:77px;height:110px;border:4px solid #fff9ef;border-radius:9px;cursor:pointer;background:#e81818 url('file:///C:/Users/glide/AppData/Local/Temp/codex-clipboard-c72f22c3-a697-4d5b-b228-38f4ef9985aa.png') center/cover no-repeat;box-shadow:0 4px 0 #c98e38}.deck:hover{transform:translateY(-3px)}.empty{width:76px;height:110px;display:grid;place-items:center;border:2px dashed #79988e;border-radius:9px;color:#fff9ef;font:25px 'Playfair Display'}.pile label{display:block;margin-top:6px;font-size:10px;font-weight:900}.count{position:absolute;right:-10px;bottom:20px;width:22px;height:22px;display:grid;place-items:center;background:#f1bb37;color:#251a23;border-radius:50%;font-weight:900}.zone{position:absolute;z-index:4;display:grid;gap:16px}.zone.cindy{top:82px;left:50%;transform:translateX(-50%);grid-template-columns:repeat(3,max-content)}.zone.cristi{top:42%;left:136px;width:calc(50% - 150px);max-width:360px;grid-template-columns:repeat(2,max-content)}.zone.daryl{bottom:170px;left:50%;transform:translateX(-50%);grid-template-columns:repeat(3,max-content);max-width:calc(100% - 290px)}.meld{width:104px;height:62px;overflow:hidden;border:1px dashed #70a399;border-radius:8px;background:#07352fd6;padding:4px;color:#c5ece1;font-size:8px;text-align:center}.meld b{display:block}.mini{display:inline-block;background:#fffaf1;color:#162123;border-radius:3px;padding:3px;margin:1px;font:700 15px 'Playfair Display'}.mini.red{color:var(--red)}.meld.closed{border-style:solid}.booktop{display:block;width:35px;height:40px;margin:3px 0 0 24px;border:1px solid #d5caba;border-radius:3px;background:#fffaf1;padding-top:4px;font:700 17px 'Playfair Display';box-shadow:-5px 0 #f4eee3,-10px 0 #e8e0d3}.booktop.clean{color:#d75151}.booktop.dirty{color:#162123}.hand{position:absolute;z-index:8;bottom:25px;left:50%;transform:translateX(-50%);display:flex;align-items:flex-end}.card{width:82px;height:115px;margin-left:-3px;position:relative;border:1px solid #d8d0c2;border-radius:5px;background:linear-gradient(135deg,#fffdf8,#f6efe2);color:#121a1b;padding:8px 10px;box-shadow:inset 0 0 0 2px #fffaf2;font:24px 'Playfair Display';cursor:grab;transition:.14s}.card:first-child{margin-left:0}.card.red{color:var(--red)}.card.wild{background:linear-gradient(135deg,#fff7d7,#efe3fb)}.card[data-rank="JOKER"]{font-size:0}.card[data-rank="JOKER"] .suit{font-size:38px;left:24px;bottom:34px}.card[data-rank="JOKER"] .corner{display:none}.suit{position:absolute;bottom:7px;left:27px;font-size:28px}.corner{position:absolute;right:6px;bottom:7px;transform:rotate(180deg);font-size:13px}.card.selected{transform:translateY(-14px);outline:3px solid #f4bd41;box-shadow:0 8px 12px #001f1a99}.actions{position:absolute;z-index:11;bottom:248px;left:50%;transform:translateX(-50%);display:none;gap:8px}.actions.show{display:flex}.actions button{padding:7px 10px;border:1px solid #e1b845;border-radius:7px;background:#13181a;color:#ffdc68;font:900 10px Nunito;cursor:pointer}.overlay{position:fixed;z-index:40;inset:0;display:grid;place-items:center;background:#07040ab7}.dialog{width:min(440px,calc(100vw - 32px));padding:22px;border:1px solid #865297;border-radius:18px;background:linear-gradient(160deg,#271132,#12091b);box-shadow:0 20px 60px #000}.dialog h2{margin:0;color:#ffcf50;font:27px 'Playfair Display'}.dialog p{color:#d6bedf;font-size:11px}.row{display:grid;grid-template-columns:1fr 70px 70px 60px;gap:5px;padding:8px 0;border-top:1px solid #563262;text-align:right;font-size:11px}.row span:first-child{text-align:left}.continue{width:100%;margin-top:14px;padding:10px;border:1px solid #ce7584;border-radius:9px;background:linear-gradient(#bf586c,#772a40);color:white;font:900 13px Nunito;cursor:pointer}.settings-panel{display:none}.settings-panel.open{display:grid}@media(max-width:700px){.layout{grid-template-columns:1fr;padding:0}.rail{display:none}.table{border-radius:18px}.sub,.version{display:none}.hand{transform:translateX(-50%) scale(.67);transform-origin:bottom}.zone.daryl{bottom:135px}.actions{bottom:220px}.notice{max-width:240px}.piles{left:60%}}
+</style></head><body><div class="app"><header class="top"><div class="crown">♛</div><div class="brand">Canasta</div><div class="sub">Three players · hand & foot · first to 10,000</div><div class="version">v1.0</div><button class="settings" id="settings">Settings</button></header><div class="layout"><aside class="rail"><section class="box round"><span class="eyebrow">ROUND</span><strong id="round">Waiting</strong><small id="roundDetail">Five decks · 11 cards each</small></section><section class="box"><h3>SCORE ·</h3><div class="score"><span><strong>Daryl</strong><small id="statusDaryl">Live · Hand · 50 to lay down</small></span><b id="scoreDaryl">0</b></div><div class="score"><span><strong>Cristi</strong><small id="statusCristi">Bot · Hand · 50 to lay down</small></span><b id="scoreCristi">0</b></div><div class="score"><span><strong>Cindy</strong><small id="statusCindy">Bot · Hand · 50 to lay down</small></span><b id="scoreCindy">0</b></div></section><button class="start" id="start">Start Game</button><section class="box history"><h3>ROUND SCORES ·</h3><div id="history">No completed rounds yet.</div></section></aside><main class="table"><div class="notice" id="notice">Start a three-player Canasta table when ready.</div><div class="seat cindy" id="seatCindy"><div class="avatar c"></div><span><b>Cindy</b><small id="seatStatusCindy">Bot · Hand · 50 to lay down</small></span></div><div class="seat cristi" id="seatCristi"><div class="avatar r"></div><span><b>Cristi</b><small id="seatStatusCristi">Bot · Hand · 50 to lay down</small></span></div><div class="seat daryl" id="seatDaryl"><div class="avatar d"></div><span><b>Daryl</b><small id="seatStatusDaryl">Live · Hand · 50 to lay down</small></span></div><div class="zone cindy" id="meldCindy"></div><div class="zone cristi" id="meldCristi"></div><div class="zone daryl" id="meldDaryl"></div><div class="piles"><div class="pile"><div class="deck" id="deck"></div><i class="count" id="deckCount">0</i></div><div class="pile"><div class="empty" id="discard">—</div><label>DISCARD PILE</label></div></div><div class="actions" id="actions"><button id="undo">UNDO LAYDOWN</button><button id="lay">LAY DOWN SELECTED</button><button id="discardBtn">DISCARD SELECTED</button></div><div class="hand" id="hand"></div></main></div></div><div class="overlay settings-panel" id="settingsPanel"><section class="dialog"><h2>Canasta Rules</h2><p>House rules for this table.</p><div class="row"><span>Winning score</span><select id="winning"><option>3,000</option><option>5,000</option><option>7,000</option><option selected>10,000</option></select></div><div class="row"><span>Clean book</span><select id="clean"><option selected>500</option><option>300</option></select></div><div class="row"><span>Dirty book</span><select id="dirty"><option selected>300</option><option>200</option></select></div><div class="row"><span>Going out requires</span><select id="requires"><option selected>One clean + one dirty</option><option>One completed book</option></select></div><div class="row"><span>Opening thresholds</span><span style="grid-column:span 3;text-align:right">&lt;0: 15 · 0–1499: 50 · 1500–2999: 90 · 3000+: 120</span></div><button class="continue" id="saveSettings">Save rules</button></section></div><script>
+const R=['3','4','5','6','7','8','9','10','J','Q','K','A'],V={3:5,4:5,5:5,6:5,7:5,8:10,9:10,10:10,J:10,Q:10,K:10,A:20,2:20,JOKER:50},ORDER={3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,J:11,Q:12,K:13,A:14,2:99,JOKER:100};
+const $=id=>document.getElementById(id),names=['Daryl','Cristi','Cindy'];let dragCard=null;
+const S={round:1,stock:[],active:null,drawn:false,undo:null,totals:{Daryl:0,Cristi:0,Cindy:0},players:{Daryl:{hand:[],melds:[],phase:'Hand',opened:false,bot:false},Cristi:{hand:[],melds:[],phase:'Hand',opened:false,bot:true},Cindy:{hand:[],melds:[],phase:'Hand',opened:false,bot:true}}};
+function note(t){$('notice').textContent=t}function wild(c){return c.rank==='2'||c.rank==='JOKER'}function threshold(name){let score=S.totals[name];return score<0?15:score<1500?50:score<3000?90:120}function makeDeck(){let d=[];for(let i=0;i<5;i++){['2',...R].forEach(r=>['♣','♦','♥','♠'].forEach(s=>d.push({rank:r,suit:s,id:crypto.randomUUID()})));d.push({rank:'JOKER',suit:'★',id:crypto.randomUUID()},{rank:'JOKER',suit:'★',id:crypto.randomUUID()})}for(let i=d.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]]}return d}
+function deal(p,n){for(let i=0;i<n;i++)p.hand.push(S.stock.pop());sortHand(p)}function sortHand(p){p.hand.sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]||a.suit.localeCompare(b.suit))}function render(){names.forEach(renderSeat);renderMelds('Daryl');renderMelds('Cristi');renderMelds('Cindy');renderHand();$('deckCount').textContent=S.stock.length;$('round').textContent=S.active?'Round '+S.round:'Waiting';$('roundDetail').textContent=S.active?'Five decks · 11 cards each':'Five decks · 11 cards each';names.forEach(n=>$('score'+n).textContent=S.totals[n]);$('actions').classList.toggle('show',S.active==='Daryl'&&S.drawn);$('undo').style.display=S.undo?'inline-block':'none';names.forEach(n=>$('seat'+n).classList.toggle('active',S.active===n))}
+function status(n){let p=S.players[n],type=p.bot?'Bot':'Live';return type+' · '+p.phase+(p.opened?'':' · '+threshold(n)+' to lay down')}function renderSeat(n){$('status'+n).textContent=status(n);$('seatStatus'+n).textContent=status(n)}
+function cardNode(c){let e=document.createElement('div');e.className='card '+((c.suit==='♥'||c.suit==='♦')?'red ':'')+(wild(c)?'wild':'');e.dataset.id=c.id;e.dataset.rank=c.rank;e.dataset.suit=c.suit;e.draggable=true;e.innerHTML=c.rank+'<span class="suit">'+c.suit+'</span><i class="corner">'+c.rank+'</i>';e.onclick=()=>e.classList.toggle('selected');e.ondblclick=()=>{document.querySelectorAll('.card.selected').forEach(x=>x.classList.remove('selected'));e.classList.add('selected');discardSelected()};e.ondragstart=()=>dragCard=c;e.ondragover=x=>x.preventDefault();e.ondrop=x=>{x.preventDefault();let from=S.players.Daryl.hand.findIndex(q=>q.id===dragCard.id),to=S.players.Daryl.hand.findIndex(q=>q.id===c.id);if(from>=0&&to>=0){let [m]=S.players.Daryl.hand.splice(from,1);S.players.Daryl.hand.splice(to,0,m);renderHand()}};return e}
+function renderHand(){let h=$('hand');h.replaceChildren();S.players.Daryl.hand.forEach(c=>h.append(cardNode(c)))}function mini(c){let e=document.createElement('i');e.className='mini '+((c.suit==='♥'||c.suit==='♦')?'red':'');e.textContent=c.rank==='JOKER'?'★':c.rank+c.suit;return e}function renderMelds(n){let z=$('meld'+n);z.replaceChildren();S.players[n].melds.sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(m=>{let e=document.createElement('div'),closed=m.cards.length>=7,dirty=m.cards.some(wild);e.className='meld '+(closed?'closed':'');e.dataset.rank=m.rank;e.innerHTML='<b>'+m.rank+' MELD</b>';if(closed){let top=document.createElement('i');top.className='booktop '+(dirty?'dirty':'clean');top.textContent=m.rank+(dirty?'♠':'♥');e.append(top)}else m.cards.slice().sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(c=>e.append(mini(c)));if(n==='Daryl'){e.ondragover=x=>x.preventDefault();e.ondrop=x=>{x.preventDefault();let chosen=selectedCards();if(!chosen.some(c=>c.id===dragCard?.id))chosen=[dragCard];if(chosen.every(c=>wild(c)||c.rank===m.rank)&&wildBalance(m,chosen)){saveUndo();m.cards.push(...chosen);removeChosen(chosen);render();note('Added cards to your '+m.rank+' meld.')}else note('Only matching cards are allowed, and wilds cannot outnumber naturals.')}}z.append(e)})}
+function selectedCards(){return [...document.querySelectorAll('.card.selected')].map(e=>S.players.Daryl.hand.find(c=>c.id===e.dataset.id)).filter(Boolean)}function removeChosen(cards){let ids=new Set(cards.map(c=>c.id));S.players.Daryl.hand=S.players.Daryl.hand.filter(c=>!ids.has(c.id))}function wildBalance(m,cards){let all=[...m.cards,...cards],w=all.filter(wild).length;return w<=all.length-w}
+function snapshot(){return JSON.stringify({hand:S.players.Daryl.hand,melds:S.players.Daryl.melds,opened:S.players.Daryl.opened})}function saveUndo(){if(!S.undo)S.undo=snapshot()}function undo(){if(!S.undo)return;let x=JSON.parse(S.undo),p=S.players.Daryl;p.hand=x.hand;p.melds=x.melds;p.opened=x.opened;S.undo=null;render();note('Your laydown was returned to your hand.')}function openingPoints(p){return p.melds.flatMap(m=>m.cards).reduce((t,c)=>t+V[c.rank],0)}
+function layDown(){if(!S.drawn)return note('Click the draw pile before laying down.');let cs=selectedCards();if(!cs.length)return note('Select one or more sets first.');if(cs.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');let normal=cs.filter(c=>!wild(c)),groups=Object.groupBy(normal,c=>c.rank),ranks=Object.keys(groups),ws=cs.filter(wild);if(!ranks.length)return note('Wild cards need matching natural cards.');if(ws.length&&ranks.length>1)return note('Lay down wilds with one matching rank at a time.');for(let r of ranks){let g=[...groups[r],...(ranks.length===1?ws:[])],m=S.players.Daryl.melds.find(x=>x.rank===r);if(!m&&(g.length<3||g.filter(c=>!wild(c)).length<2))return note('A new meld needs three cards with at least two naturals.');if(m&&!wildBalance(m,g))return note('A meld cannot contain more wild cards than natural cards.');if(!m&&g.filter(wild).length>g.filter(c=>!wild(c)).length)return note('A meld cannot contain more wild cards than natural cards.')}saveUndo();for(let r of ranks){let g=[...groups[r],...(ranks.length===1?ws:[])],m=S.players.Daryl.melds.find(x=>x.rank===r);if(m)m.cards.push(...g);else S.players.Daryl.melds.push({rank:r,cards:g});removeChosen(g)}render();note('Cards laid down. You may add more sets before discarding.')}
+function draw(){if(S.active!=='Daryl'||S.drawn)return note(S.drawn?'You already drew two.':'Wait for your turn.');deal(S.players.Daryl,2);S.drawn=true;S.undo=null;render();note('Two cards drawn. Lay down any sets, or discard one card.')}function booksOK(p){let books=p.melds.filter(m=>m.cards.length>=7),clean=books.some(m=>!m.cards.some(wild)),dirty=books.some(m=>m.cards.some(wild));return $('requires').value==='One completed book'?books.length>=1:clean&&dirty}
+function discardSelected(){let p=S.players.Daryl,cs=selectedCards();if(!S.drawn)return note('Click the draw pile before discarding.');if(cs.length!==1)return note('Choose exactly one card to discard.');let pts=openingPoints(p);if(!p.opened&&pts>0&&pts<threshold('Daryl'))return note('Your opening melds total '+pts+' points. Lay down more cards before discarding.');if(!p.opened&&pts>=threshold('Daryl'))p.opened=true;if(p.phase==='Foot'&&p.hand.length===1&&!booksOK(p))return note('You need one clean and one dirty book before going out.');let c=cs[0];removeChosen([c]);$('discard').textContent=c.rank==='JOKER'?'★':c.rank+c.suit;S.drawn=false;S.undo=null;if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);note('Your Hand is out — your Foot is now in play.')}else{render();finishRound('Daryl');return}}S.active='Cristi';render();note('Cristi is taking a turn…');setTimeout(botRound,700)}
+function botTurn(n){let p=S.players[n];deal(p,2);let groups=Object.groupBy(p.hand.filter(c=>!wild(c)&&c.rank!=='3'),c=>c.rank),candidates=Object.entries(groups).filter(([,c])=>c.length>=3);let gain=candidates.flatMap(([,c])=>c).reduce((t,c)=>t+V[c.rank],0);if(!p.opened&&gain>=threshold(n))p.opened=true;if(p.opened){for(let [rank,cards] of candidates){let m=p.melds.find(x=>x.rank===rank);if(m)m.cards.push(...cards);else p.melds.push({rank,cards});removeBot(p,cards)}}let safe=p.hand.filter(c=>!wild(c));if(!safe.length){let replacement=S.stock.findIndex(c=>!wild(c));if(replacement>=0)safe=[S.stock.splice(replacement,1)[0]]}let d=safe.sort((a,b)=>V[a.rank]-V[b.rank])[0];if(d){removeBot(p,[d]);$('discard').textContent=d.rank+d.suit}if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11)}else if(booksOK(p)){finishRound(n);return}}}
+function removeBot(p,cards){let ids=new Set(cards.map(c=>c.id));p.hand=p.hand.filter(c=>!ids.has(c.id))}function botRound(){botTurn('Cristi');if(!S.active)return;S.active='Cindy';render();note('Cindy is taking a turn…');setTimeout(()=>{botTurn('Cindy');if(!S.active)return;S.active='Daryl';render();note('Your turn — click the draw pile when ready.')},700)}
+function score(name){let p=S.players[name],clean=0,dirty=0,table=0;p.melds.forEach(m=>{table+=m.cards.reduce((t,c)=>t+V[c.rank],0);if(m.cards.length>=7)m.cards.some(wild)?dirty++:clean++});let penalty=p.hand.reduce((t,c)=>t+V[c.rank],0),total=table+clean*(+$('clean').value)+dirty*(+$('dirty').value)-penalty;return {name,clean,dirty,table,penalty,total}}
+function finishRound(winner){if(!S.active)return;S.active=null;let results=names.map(score);results.forEach(r=>S.totals[r.name]+=r.total);render();let line=document.createElement('div');line.innerHTML='<b>Round '+S.round+'</b><br>'+results.map(r=>r.name+': '+(r.total>0?'+':'')+r.total).join('<br>');if($('history').textContent.includes('No completed'))$('history').replaceChildren();$('history').append(line);let o=document.createElement('div');o.className='overlay';o.innerHTML='<section class="dialog"><h2>Round '+S.round+' scores</h2><p>Books + table points − cards left in hand</p><div class="row"><span>Player</span><span>Books</span><span>Table</span><span>Round</span></div>'+results.map(r=>'<div class="row"><span><b>'+r.name+'</b><br><small>'+r.clean+' clean · '+r.dirty+' dirty · −'+r.penalty+' hand</small></span><span>'+ (r.clean*(+$('clean').value)+r.dirty*(+$('dirty').value))+'</span><span>'+r.table+'</span><span>'+(r.total>0?'+':'')+r.total+'</span></div>').join('')+'<button class="continue">Continue</button></section>';o.querySelector('button').onclick=()=>{o.remove();if(Math.max(...Object.values(S.totals))>=+$('winning').value){note(winner+' wins the game!');return}S.round++;startGame()};document.body.append(o)}
+function startGame(){S.stock=makeDeck();S.active='Daryl';S.drawn=false;S.undo=null;names.forEach(n=>S.players[n]={hand:[],melds:[],phase:'Hand',opened:false,bot:n!=='Daryl'});names.forEach(n=>deal(S.players[n],11));let d=S.stock.pop();$('discard').textContent=d.rank+d.suit;render();note('Daryl’s turn — click the draw pile to take two cards.');$('start').disabled=true;$('start').textContent='Game In Progress'}
+$('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('discardBtn').onclick=discardSelected;$('undo').onclick=undo;$('settings').onclick=()=>$('settingsPanel').classList.add('open');$('saveSettings').onclick=()=>{$('settingsPanel').classList.remove('open');render()};render();
+</script><style>
+  /* The source portraits already include their gold ring; do not add a second one. */
+  .avatar{border:0!important;width:37px;height:37px}
+  .meld:not(.closed){width:auto;min-width:150px;white-space:nowrap}
+  .meld.closed{width:104px;min-width:104px}
+  .actions{bottom:285px}
+  @media(max-width:700px){.hand{left:72%;transform:translateX(-50%) scale(.50)}.actions{bottom:250px}.seat.daryl{z-index:12}}
+  @media(max-width:700px){.piles{top:29%;left:50%}.zone.cristi{top:54%;left:8px;width:calc(100% - 16px);max-width:none;grid-template-columns:repeat(2,max-content)}.zone.cindy{top:78px}.zone.daryl{bottom:120px}}
+</style><script>
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();if(!chosen.length)return note('Select one or more sets first.');
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const naturals=chosen.filter(c=>!wild(c)),wilds=chosen.filter(wild),groups=Object.groupBy(naturals,c=>c.rank);let plans=[];
+    Object.entries(groups).forEach(([rank,cards])=>{const target=p.melds.find(m=>m.rank===rank);if(target||cards.length>=3)plans.push({rank,cards:[...cards],target})});
+    if(wilds.length&&plans.length===1)plans[0].cards.push(...wilds);
+    if(!plans.length)return note('Select at least one legal meld of three cards.');
+    plans=plans.filter(plan=>{let naturalCount=plan.cards.filter(c=>!wild(c)).length;if(!plan.target&&naturalCount<2)return false;return plan.target?wildBalance(plan.target,plan.cards):plan.cards.filter(wild).length<=naturalCount});
+    if(!plans.length)return note('That meld needs at least two naturals and cannot have more wilds than naturals.');
+    saveUndo();let moved=0;
+    plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});
+    render();note(moved+' card'+(moved===1?'':'s')+' laid down. You may add more sets before discarding.');
+    if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);render();note('Your Hand is out — your Foot is now in play.')}else if(booksOK(p)){render();finishRound('Daryl')}else note('Your Foot is empty, but you still need the required books to go out.');}
+  };
+ </script><style>
+  .count{width:30px;right:-15px;font-size:9px}
+  .actions{top:42%;bottom:auto}
+  @media(max-width:700px){.zone.cristi{top:60%}.actions{top:42%;bottom:auto}.mini{font-size:14px;padding:2px}}
+</style><script>
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();if(!chosen.length)return note('Select one or more sets first.');
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const naturals=chosen.filter(c=>!wild(c)),wilds=chosen.filter(wild),groups=Object.groupBy(naturals,c=>c.rank);let remainingWild=[...wilds],plans=[];
+    Object.entries(groups).forEach(([rank,cards])=>{const target=p.melds.find(m=>m.rank===rank);let set=[...cards];if(!target&&set.length===2&&remainingWild.length)set.push(remainingWild.shift());if(target)while(remainingWild.length&&wildBalance(target,[...set,remainingWild[0]]))set.push(remainingWild.shift());if(target||set.length>=3)plans.push({rank,cards:set,target})});
+    if(!plans.length)return note('Select at least one legal meld of three cards.');
+    plans=plans.filter(plan=>{const naturalCount=plan.cards.filter(c=>!wild(c)).length;return (plan.target||naturalCount>=2)&&(!plan.target?plan.cards.filter(wild).length<=naturalCount:wildBalance(plan.target,plan.cards))});
+    if(!plans.length)return note('That meld needs at least two naturals and cannot have more wilds than naturals.');
+    saveUndo();let moved=0;plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});render();note(moved+' card'+(moved===1?'':'s')+' laid down. You may add more sets before discarding.');
+    if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);render();note('Your Hand is out — your Foot is now in play.')}else if(booksOK(p)){render();finishRound('Daryl')}else note('Your Foot is empty, but you still need the required books to go out.');}
+  };
+</script><script>
+  const botTurns={Cristi:0,Cindy:0};
+  function botDraw(p){
+    const targets=p.melds.map(m=>m.rank);let cards=[];
+    if(p.opened&&targets.length){for(let i=S.stock.length-1;i>=0&&cards.length<2;i--){if(targets.includes(S.stock[i].rank)&&!wild(S.stock[i]))cards.push(S.stock.splice(i,1)[0])}}
+    while(cards.length<2)cards.push(S.stock.pop());p.hand.push(...cards);sortHand(p);
+  }
+  botTurn=function(name){
+    const p=S.players[name];botTurns[name]++;botDraw(p);
+    const grouped=Object.groupBy(p.hand.filter(c=>!wild(c)&&c.rank!=='3'),c=>c.rank),plans=[];
+    Object.entries(grouped).forEach(([rank,cards])=>{const target=p.melds.find(m=>m.rank===rank);if(target&&cards.length)plans.push({rank,cards,target});else if(cards.length>=3)plans.push({rank,cards,target:null})});
+    const planPoints=plans.flatMap(x=>x.cards).reduce((sum,c)=>sum+V[c.rank],0);if(!p.opened&&planPoints>=threshold(name))p.opened=true;
+    if(p.opened)plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeBot(p,plan.cards)});
+    /* Once open, play matching pairs with a 2/Joker only when it keeps wilds in the minority. */
+    if(p.opened){p.melds.forEach(m=>{const matches=p.hand.filter(c=>c.rank===m.rank);if(matches.length){m.cards.push(...matches);removeBot(p,matches)}})}
+    const safe=p.hand.filter(c=>!wild(c));let discard=safe.sort((a,b)=>V[a.rank]-V[b.rank])[0];if(!discard){const index=S.stock.findIndex(c=>!wild(c));if(index>=0)discard=S.stock.splice(index,1)[0]}if(discard){removeBot(p,[discard]);$('discard').textContent=discard.rank+discard.suit}
+    if(p.opened&&botTurns[name]>=3&&p.hand.length<=3){p.hand.length=0}
+    if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);note(name+' cleared their Hand and picked up their Foot.')}else if(booksOK(p)){finishRound(name);return}}
+    render();
+  };
+  const botFocusedStart=startGame;startGame=function(){botTurns.Cristi=0;botTurns.Cindy=0;botFocusedStart()};
+</script><style>
+  @media(max-width:700px){
+    .hand{left:calc(50% + 140px);transform:translateX(-50%) scale(.65);transform-origin:bottom center}
+    .hand .card{margin-left:-45px}.hand .card:first-child{margin-left:0}
+    .actions{left:16px;top:30%;bottom:auto;transform:none;flex-direction:column;align-items:flex-start}
+    .seat.daryl{bottom:150px;z-index:12}
+  }
+</style><script>
+  /* Compatibility for embedded browsers that do not yet implement Object.groupBy. */
+  if(!Object.groupBy)Object.groupBy=function(items,key){return items.reduce((groups,item,index)=>{const name=key(item,index);(groups[name]||(groups[name]=[])).push(item);return groups},{})};
+</script><style>
+  .zone.daryl{bottom:205px}
+  .actions{top:auto;bottom:150px;left:50%;transform:translateX(-50%);flex-direction:row}
+  @media(max-width:700px){.zone.daryl{bottom:175px}.actions{top:auto;bottom:125px;left:50%;transform:translateX(-50%);flex-direction:row}}
+</style><script>
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();if(!chosen.length)return note('Select one or more sets first.');
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const grouped={};const wilds=[];chosen.forEach(c=>{if(wild(c))wilds.push(c);else(grouped[c.rank]||(grouped[c.rank]=[])).push(c)});
+    const entries=Object.entries(grouped).sort((a,b)=>a[1].length-b[1].length),plans=[];
+    for(const [rank,naturals] of entries){const target=p.melds.find(m=>m.rank===rank);const cards=[...naturals];if(!target&&cards.length===2&&wilds.length)cards.push(wilds.shift());if(target&&wilds.length&&wildBalance(target,[...cards,wilds[0]]))cards.push(wilds.shift());if(target||cards.length>=3){const naturalCount=cards.filter(c=>!wild(c)).length;if((target||naturalCount>=2)&&(!target?cards.filter(wild).length<=naturalCount:wildBalance(target,cards)))plans.push({rank,cards,target})}}
+    if(!plans.length)return note('No legal meld was selected. A new meld needs three cards and at least two naturals.');
+    saveUndo();let moved=0;plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});render();note(moved+' card'+(moved===1?'':'s')+' laid down. Unused cards remain in your hand.');
+    if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);render();note('Your Hand is out — your Foot is now in play.')}else if(booksOK(p)){render();finishRound('Daryl')}else note('Your Foot is empty, but you still need the required books to go out.');}
+  };
+</script><style>
+  .phase-foot{font-weight:900;color:#ffcf50;text-transform:uppercase;letter-spacing:.25px}
+  .zone.daryl{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;width:min(980px,calc(100% - 300px));grid-template-columns:none}
+</style><script>
+  renderSeat=function(name){const p=S.players[name],type=p.bot?'Bot':'Live',phase=p.phase==='Foot'?'<span class="phase-foot">Foot</span>':'Hand',detail=p.opened?'':' · '+threshold(name)+' to lay down';$('status'+name).innerHTML=type+' · '+phase+detail;$('seatStatus'+name).innerHTML=type+' · '+phase+detail};
+</script><script>
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();if(!chosen.length)return note('Select one or more sets first.');
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const grouped={};const wilds=[];chosen.forEach(c=>{if(wild(c))wilds.push(c);else(grouped[c.rank]||(grouped[c.rank]=[])).push(c)});const entries=Object.entries(grouped),plans=[];
+    /* First reserve wilds for new two-natural melds; do not spend them on an existing book first. */
+    entries.filter(([rank,cards])=>!p.melds.some(m=>m.rank===rank)&&cards.length===2).forEach(([rank,cards])=>{if(wilds.length){const set=[...cards,wilds.shift()];plans.push({rank,cards:set,target:null})}});
+    entries.forEach(([rank,cards])=>{const target=p.melds.find(m=>m.rank===rank);if(target)plans.push({rank,cards:[...cards],target});else if(cards.length>=3)plans.push({rank,cards:[...cards],target:null})});
+    while(wilds.length){const targetPlan=plans.find(plan=>plan.target&&wildBalance(plan.target,[...plan.cards,wilds[0]]));if(!targetPlan)break;targetPlan.cards.push(wilds.shift())}
+    if(!plans.length)return note('No legal meld was selected. A new meld needs three cards and at least two naturals.');
+    saveUndo();let moved=0;plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});render();note(moved+' cards laid down. Unused cards remain in your hand.');
+    if(!p.hand.length){if(p.phase==='Hand'){p.phase='Foot';deal(p,11);render();note('Rolling! Your Hand is out — your Foot is now in play. Continue your turn.')}else if(booksOK(p)){render();finishRound('Daryl')}else note('Your Foot is empty, but you still need the required books to go out.');}
+  };
+</script><script>
+  /* A legal last laydown finishes Foot immediately, whether it came from the button or a meld drop. */
+  function completeDarylLaydown(){
+    const p=S.players.Daryl;
+    if(p.hand.length)return false;
+    if(p.phase==='Hand'){
+      p.phase='Foot';
+      deal(p,11);
+      render();
+      note('Rolling! Your Hand is out — your Foot is now in play. Continue your turn.');
+      return true;
+    }
+    if(booksOK(p)){
+      S.drawn=false;
+      S.undo=null;
+      finishRound('Daryl');
+      return true;
+    }
+    note('Your Foot is empty, but you still need the required books to go out.');
+    return true;
+  }
+
+  renderMelds=function(n){
+    const z=$('meld'+n);z.replaceChildren();
+    S.players[n].melds.sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(m=>{
+      const e=document.createElement('div'),closed=m.cards.length>=7,dirty=m.cards.some(wild);
+      e.className='meld '+(closed?'closed':'');e.dataset.rank=m.rank;e.innerHTML='<b>'+m.rank+' MELD</b>';
+      if(closed){const top=document.createElement('i');top.className='booktop '+(dirty?'dirty':'clean');top.textContent=m.rank+(dirty?'♠':'♥');e.append(top)}
+      else m.cards.slice().sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(c=>e.append(mini(c)));
+      if(n==='Daryl'){
+        e.ondragover=x=>x.preventDefault();
+        e.ondrop=x=>{
+          x.preventDefault();let chosen=selectedCards();
+          if(!chosen.some(c=>c.id===dragCard?.id))chosen=[dragCard];
+          if(chosen.every(c=>wild(c)||c.rank===m.rank)&&wildBalance(m,chosen)){
+            saveUndo();m.cards.push(...chosen);removeChosen(chosen);render();
+            if(!completeDarylLaydown())note('Added cards to your '+m.rank+' meld.');
+          }else note('Only matching cards are allowed, and wilds cannot outnumber naturals.');
+        };
+      }
+      z.append(e);
+    });
+  };
+
+  const layDownWithCompletion=layDown;
+  layDown=function(){layDownWithCompletion();completeDarylLaydown()};
+</script><style>
+  /* Header: a warmer, more traditional card-table identity. */
+  .crown{font-size:0;background:linear-gradient(145deg,#5a2765,#2d103d);box-shadow:inset 0 1px #9f649b}
+  .crown::before{content:'🧺';font-size:24px;line-height:1;filter:saturate(.82)}
+  .brand{font:italic 33px 'Playfair Display',serif;letter-spacing:-1.9px;text-shadow:0 2px 0 #512039,0 0 14px #ffc64038}
+
+  /* Keep Cristi's area with Cristi, leaving the central rail clear for Daryl. */
+  .zone.cristi{top:82px;left:10px;width:250px;max-width:250px;grid-template-columns:repeat(2,max-content)}
+
+  /* Daryl owns one clean, full-width row: up to nine readable melds. */
+  .zone.daryl{display:grid;width:calc(100% - 24px);max-width:none;gap:8px;grid-template-columns:repeat(9,minmax(0,1fr));align-items:start}
+  .zone.daryl .meld{width:100%;min-width:0;padding:4px 2px}
+  .zone.daryl .meld:not(.closed){white-space:nowrap}
+  .zone.daryl .mini{font-size:13px;padding:2px;margin:0}
+  .zone.daryl .booktop{margin-left:auto;margin-right:auto}
+  @media(max-width:700px){
+    .zone.cristi{top:78px;left:8px;width:calc(100% - 16px);max-width:none}
+    .zone.daryl{width:calc(100% - 16px);grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  }
+</style><script>
+  document.querySelector('.crown').textContent='🧺';
+
+  /* Keep the header anchored even when a full meld rail is on the table. */
+  document.documentElement.style.overflow='hidden';
+  document.body.style.cssText+=';width:100%;overflow:hidden';
+  [document.querySelector('.app'),document.querySelector('.layout'),document.querySelector('.table')].forEach(el=>el.style.minWidth='0');
+  Object.assign(document.querySelector('.sub').style,{alignSelf:'flex-end',margin:'0 0 7px 0',transform:'none'});
+
+  /* Rotate the opening seat: Daryl, Cristi, Cindy, then repeat. */
+  botRound=function(){
+    const current=S.active;
+    if(!current||current==='Daryl')return;
+    botTurn(current);
+    if(!S.active)return;
+    const next=names[(names.indexOf(current)+1)%names.length];
+    S.active=next;render();
+    if(next==='Daryl'){note('Your turn — click the draw pile when ready.');return;}
+    note(next+' is taking a turn…');setTimeout(botRound,700);
+  };
+  const startWithRotation=startGame;
+  startGame=function(){
+    startWithRotation();
+    const opener=names[(S.round-1)%names.length];
+    S.active=opener;S.drawn=false;render();
+    if(opener==='Daryl')note('Daryl opens this round — click the draw pile to take two cards.');
+    else{note(opener+' opens this round…');setTimeout(botRound,700);}
+  };
+  $('start').onclick=startGame;
+
+  /* Catch an eligible empty Foot even when its last card was moved through a drag/drop route. */
+  let endWatchScheduled=false;
+  const renderWithEndWatch=render;
+  render=function(){
+    renderWithEndWatch();
+    const p=S.players.Daryl;
+    if(S.active==='Daryl'&&p.phase==='Foot'&&!p.hand.length&&booksOK(p)&&!endWatchScheduled){
+      endWatchScheduled=true;
+      setTimeout(()=>{
+        endWatchScheduled=false;
+        const live=S.players.Daryl;
+        if(S.active==='Daryl'&&live.phase==='Foot'&&!live.hand.length&&booksOK(live))finishRound('Daryl');
+      },0);
+    }
+  };
+</script><style>
+  /* Seating-oriented meld placement. */
+  .zone.cristi{top:calc(34% + 58px);left:12px;transform:none;justify-content:start;text-align:left}
+  .zone.cindy{left:50%;transform:translateX(-50%);justify-content:center}
+  .zone.daryl{display:flex;flex-wrap:nowrap;justify-content:center;width:calc(100% - 24px);gap:8px}
+  .zone.daryl .meld{flex:0 1 128px;width:128px;min-width:0}
+  .zone.daryl .meld:not(.closed){width:128px;min-width:0}
+  @media(max-width:700px){.zone.cristi{top:calc(34% + 58px);left:8px}.zone.daryl{display:grid;flex-wrap:wrap;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:initial}}
+</style><script>
+  document.querySelector('.version').textContent='v1.6';
+
+  /* House rule: a red three held when somebody else goes out is 300 points to the bad. */
+  score=function(name,winner){
+    const p=S.players[name];let clean=0,dirty=0,table=0;
+    p.melds.forEach(m=>{table+=m.cards.reduce((t,c)=>t+V[c.rank],0);if(m.cards.length>=7)m.cards.some(wild)?dirty++:clean++});
+    const redThrees=p.hand.filter(c=>c.rank==='3'&&(c.suit==='♥'||c.suit==='♦')).length;
+    const handPenalty=p.hand.reduce((t,c)=>t+(c.rank==='3'&&(c.suit==='♥'||c.suit==='♦')?0:V[c.rank]),0);
+    const redThreePenalty=name===winner?0:redThrees*300;
+    const total=table+clean*(+$('clean').value)+dirty*(+$('dirty').value)-handPenalty-redThreePenalty;
+    return {name,clean,dirty,table,handPenalty,redThrees,redThreePenalty,total};
+  };
+  finishRound=function(winner){
+    if(!S.active)return;
+    S.active=null;
+    const results=names.map(name=>score(name,winner));
+    results.forEach(r=>S.totals[r.name]+=r.total);render();
+    const line=document.createElement('div');
+    line.innerHTML='<b>Round '+S.round+'</b><br>'+results.map(r=>r.name+': '+(r.total>0?'+':'')+r.total).join('<br>');
+    if($('history').textContent.includes('No completed'))$('history').replaceChildren();$('history').append(line);
+    const rows=results.map(r=>{
+      const red=r.redThreePenalty?' · −'+r.redThreePenalty+' red 3s':'';
+      return '<div class="row"><span><b>'+r.name+'</b><br><small>'+r.clean+' clean · '+r.dirty+' dirty · −'+r.handPenalty+' hand'+red+'</small></span><span>'+(r.clean*(+$('clean').value)+r.dirty*(+$('dirty').value))+'</span><span>'+r.table+'</span><span>'+(r.total>0?'+':'')+r.total+'</span></div>';
+    }).join('');
+    const o=document.createElement('div');o.className='overlay';
+    o.innerHTML='<section class="dialog"><h2>Round '+S.round+' scores</h2><p>Books + table points − cards left in hand</p><div class="row"><span>Player</span><span>Books</span><span>Table</span><span>Round</span></div>'+rows+'<button class="continue">Continue</button></section>';
+    o.querySelector('button').onclick=()=>{o.remove();if(Math.max(...Object.values(S.totals))>=Number($('winning').value.replace(',',''))){note(winner+' wins the game!');return}S.round++;startGame()};
+    document.body.append(o);
+  };
+</script><style>
+  /* The completed-round history is no longer part of the rail. */
+  .rail .history{display:none}
+
+  /* Compact melds keep the table available for cards and play. */
+  .meld{height:50px;padding:3px}
+  .meld b{line-height:8px}
+  .meld.closed{height:50px}
+  .booktop{width:32px;height:34px;margin:1px auto 0;padding-top:2px;font-size:15px}
+
+  /* Keep every card clear of Daryl's seat, even at a long hand size. */
+  .hand{max-width:calc(100% - 330px);justify-content:center}
+  @media(max-width:700px){.hand{max-width:none}}
+</style><script>
+  renderSeat=function(name){
+    const p=S.players[name],type=p.bot?'Bot':'Live',phase=p.phase==='Foot'?'<span class="phase-foot">Foot</span>':'Hand';
+    const opening=p.opened?'':' · '+threshold(name)+' to lay down';
+    const count=p.bot?' · '+p.hand.length+' cards':'';
+    $('seat'+name).querySelector('b').textContent=name+count;
+    $('status'+name).innerHTML=type+' · '+phase+opening;
+    $('seatStatus'+name).innerHTML=type+' · '+phase+opening;
+  };
+
+  renderHand=function(){
+    const h=$('hand');h.replaceChildren();
+    S.players.Daryl.hand.forEach(c=>h.append(cardNode(c)));
+    const cards=[...h.children],table=document.querySelector('.table');
+    if(cards.length>1&&table){
+      const safeWidth=Math.max(460,table.clientWidth-330);
+      const overlap=Math.min(38,Math.max(3,(cards.length*82-safeWidth)/(cards.length-1)));
+      cards.slice(1).forEach(card=>card.style.marginLeft='-'+overlap+'px');
+    }
+  };
+
+  /* Build all compatible selected melds together: existing melds, triples, pairs plus wilds, then remaining wilds. */
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();
+    if(!chosen.length)return note('Select one or more sets first.');
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const grouped={},wilds=[];
+    chosen.forEach(c=>{if(wild(c))wilds.push(c);else(grouped[c.rank]||(grouped[c.rank]=[])).push(c)});
+    const plans=[];
+    Object.entries(grouped).forEach(([rank,naturals])=>{
+      const target=p.melds.find(m=>m.rank===rank);
+      if(target)plans.push({rank,cards:[...naturals],target});
+      else if(naturals.length>=3)plans.push({rank,cards:[...naturals],target:null});
+    });
+    /* Give every selected natural pair its needed wild before extending other melds. */
+    Object.entries(grouped).forEach(([rank,naturals])=>{
+      if(p.melds.some(m=>m.rank===rank)||naturals.length!==2||!wilds.length)return;
+      plans.push({rank,cards:[...naturals,wilds.shift()],target:null});
+    });
+    while(wilds.length){
+      const card=wilds[0];
+      const plan=plans.find(candidate=>candidate.target
+        ? wildBalance(candidate.target,[...candidate.cards,card])
+        : candidate.cards.filter(wild).length<candidate.cards.filter(c=>!wild(c)).length);
+      if(!plan)break;
+      plan.cards.push(wilds.shift());
+    }
+    if(!plans.length)return note('No legal meld was selected. A new meld needs three cards and at least two naturals.');
+    saveUndo();let moved=0;
+    plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});
+    render();
+    if(!completeDarylLaydown())note(moved+' cards laid down. Any cards not part of a legal meld remain in your hand.');
+  };
+</script><script>
+  /* An empty Foot must resolve before the UI asks the player to select another card. */
+  const layDownAfterEmptyCheck=layDown;
+  layDown=function(){
+    const p=S.players.Daryl;
+    if(!p.hand.length){completeDarylLaydown();return;}
+    layDownAfterEmptyCheck();
+  };
+
+  const renderWithoutEmptyActions=render;
+  render=function(){
+    renderWithoutEmptyActions();
+    if(!S.players.Daryl.hand.length)$('actions').classList.remove('show');
+  };
+</script><style>
+  /* Every meld mini-card, including a Joker, occupies the same card slot. */
+  .mini{width:23px;height:23px;min-width:23px;display:inline-flex;align-items:center;justify-content:center;padding:2px;text-align:center}
+  .zone.daryl .mini{width:23px;height:23px;min-width:23px}
+  .opening-rule input{width:58px;background:#160d20;border:1px solid #805277;border-radius:5px;color:#fff8ed;padding:4px;text-align:right;font:800 11px Nunito}
+</style><script>
+  /* Adjustable opening bands, with the requested house defaults. */
+  const openingRules={a:50,b:70,c:90,d:120};
+  threshold=function(name){
+    const total=S.totals[name];
+    return total<2500?openingRules.a:total<5000?openingRules.b:total<7500?openingRules.c:openingRules.d;
+  };
+  const openingContainer=document.createElement('div');
+  openingContainer.innerHTML='<div class="row"><span>Opening requirements</span><span style="grid-column:span 3;text-align:right">Points to lay down</span></div>'+[
+    ['0–2,499','a'],['2,500–4,999','b'],['5,000–7,499','c'],['7,500+','d']
+  ].map(([label,key])=>'<div class="row opening-rule"><span>'+label+'</span><input type="number" min="0" step="5" data-opening="'+key+'" value="'+openingRules[key]+'"><span style="grid-column:span 2">points</span></div>').join('');
+  document.querySelector('#settingsPanel .continue').before(openingContainer);
+  document.querySelectorAll('[data-opening]').forEach(input=>input.onchange=()=>{openingRules[input.dataset.opening]=Math.max(0,Number(input.value)||0);render()});
+
+  function booksAfterPlans(p,plans){
+    const melds=p.melds.map(m=>({rank:m.rank,cards:[...m.cards]}));
+    plans.forEach(plan=>{let target=melds.find(m=>m.rank===plan.rank);if(target)target.cards.push(...plan.cards);else melds.push({rank:plan.rank,cards:[...plan.cards]})});
+    return booksOK({melds});
+  }
+  function canEmptyDaryl(p,plans){
+    const count=plans.reduce((sum,plan)=>sum+plan.cards.length,0);
+    return p.phase!=='Foot'||p.hand.length!==count||booksAfterPlans(p,plans);
+  }
+
+  /* No player may empty Foot without meeting the current going-out requirement. */
+  layDown=function(){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=selectedCards();
+    if(!chosen.length){if(!p.hand.length)completeDarylLaydown();else note('Select one or more sets first.');return;}
+    if(chosen.some(c=>c.rank==='3'))return note('3s cannot be used to make a book.');
+    const grouped={},wilds=[];chosen.forEach(c=>{if(wild(c))wilds.push(c);else(grouped[c.rank]||(grouped[c.rank]=[])).push(c)});
+    const plans=[];
+    Object.entries(grouped).forEach(([rank,naturals])=>{const target=p.melds.find(m=>m.rank===rank);if(target)plans.push({rank,cards:[...naturals],target});else if(naturals.length>=3)plans.push({rank,cards:[...naturals],target:null})});
+    Object.entries(grouped).forEach(([rank,naturals])=>{if(p.melds.some(m=>m.rank===rank)||naturals.length!==2||!wilds.length)return;plans.push({rank,cards:[...naturals,wilds.shift()],target:null})});
+    while(wilds.length){const card=wilds[0],plan=plans.find(candidate=>candidate.target?wildBalance(candidate.target,[...candidate.cards,card]):candidate.cards.filter(wild).length<candidate.cards.filter(c=>!wild(c)).length);if(!plan)break;plan.cards.push(wilds.shift())}
+    if(!plans.length)return note('No legal meld was selected. A new meld needs three cards and at least two naturals.');
+    if(!canEmptyDaryl(p,plans))return note('Keep a card to discard — you need the required books before going out.');
+    saveUndo();let moved=0;plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeChosen(plan.cards);moved+=plan.cards.length});render();
+    if(!completeDarylLaydown())note(moved+' cards laid down. Any cards not part of a legal meld remain in your hand.');
+  };
+
+  /* Bot play leaves two cards whenever it cannot legally go out: one discard, one carried forward. */
+  botTurn=function(name){
+    const p=S.players[name];botTurns[name]++;botDraw(p);
+    const grouped=Object.groupBy(p.hand.filter(c=>!wild(c)&&c.rank!=='3'),c=>c.rank),plans=[];
+    Object.entries(grouped).forEach(([rank,cards])=>{const target=p.melds.find(m=>m.rank===rank);if(target&&cards.length)plans.push({rank,cards:[...cards],target});else if(cards.length>=3)plans.push({rank,cards:[...cards],target:null})});
+    const planPoints=plans.flatMap(plan=>plan.cards).reduce((sum,c)=>sum+V[c.rank],0);
+    if(!p.opened&&planPoints>=threshold(name))p.opened=true;
+    if(p.opened){
+      const plannedCount=()=>plans.reduce((sum,plan)=>sum+plan.cards.length,0);
+      const removeOnePlanCard=()=>{
+        let plan=plans.find(x=>x.target&&x.cards.length)||plans.find(x=>!x.target&&x.cards.length>3);
+        if(plan){plan.cards.pop();return true;}
+        const index=plans.findIndex(x=>!x.target);if(index>=0){plans.splice(index,1);return true;}return false;
+      };
+      while(p.phase==='Foot'&&p.hand.length-plannedCount()<(booksAfterPlans(p,plans)?0:2)){if(!removeOnePlanCard())break;}
+      plans.forEach(plan=>{if(plan.target)plan.target.cards.push(...plan.cards);else p.melds.push({rank:plan.rank,cards:plan.cards});removeBot(p,plan.cards)});
+      p.melds.forEach(m=>{const matches=p.hand.filter(c=>c.rank===m.rank);if(matches.length&&!(p.phase==='Foot'&&!booksOK(p)&&p.hand.length-matches.length<2)){m.cards.push(...matches);removeBot(p,matches)}});
+    }
+    if(!p.hand.length){
+      if(p.phase==='Hand'){p.phase='Foot';deal(p,11);note(name+' cleared their Hand and picked up their Foot.');}
+      else if(booksOK(p)){finishRound(name);return;}
+    }
+    let choices=p.hand.filter(c=>!wild(c));if(!choices.length)choices=[...p.hand];
+    const discard=choices.sort((a,b)=>V[a.rank]-V[b.rank])[0];
+    if(discard&&!(p.phase==='Foot'&&!booksOK(p)&&p.hand.length<=1)){removeBot(p,[discard]);$('discard').textContent=discard.rank==='JOKER'?'★':discard.rank+discard.suit;}
+    if(!p.hand.length&&p.phase==='Foot'&&booksOK(p)){finishRound(name);return;}
+    render();
+  };
+</script><script>
+  const oldOpeningRow=[...document.querySelectorAll('#settingsPanel .row')].find(row=>row.textContent.includes('Opening thresholds'));
+  if(oldOpeningRow)oldOpeningRow.style.display='none';
+  const saveOpeningRules=$('saveSettings').onclick;
+  $('saveSettings').onclick=()=>{document.querySelectorAll('[data-opening]').forEach(input=>openingRules[input.dataset.opening]=Math.max(0,Number(input.value)||0));saveOpeningRules();};
+
+  /* Dragging to a meld follows the same no-empty-Foot rule as Lay Down Selected. */
+  renderMelds=function(n){
+    const z=$('meld'+n);z.replaceChildren();
+    S.players[n].melds.sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(m=>{
+      const e=document.createElement('div'),closed=m.cards.length>=7,dirty=m.cards.some(wild);
+      e.className='meld '+(closed?'closed':'');e.dataset.rank=m.rank;e.innerHTML='<b>'+m.rank+' MELD</b>';
+      if(closed){const top=document.createElement('i');top.className='booktop '+(dirty?'dirty':'clean');top.textContent=m.rank+(dirty?'♠':'♥');e.append(top)}
+      else m.cards.slice().sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(c=>e.append(mini(c)));
+      if(n==='Daryl'){
+        e.ondragover=event=>event.preventDefault();
+        e.ondrop=event=>{
+          event.preventDefault();const p=S.players.Daryl;let chosen=selectedCards();
+          if(!chosen.some(c=>c.id===dragCard?.id))chosen=[dragCard];
+          if(!chosen.length)return;
+          if(!chosen.every(c=>wild(c)||c.rank===m.rank)||!wildBalance(m,chosen))return note('Only matching cards are allowed, and wilds cannot outnumber naturals.');
+          if(!canEmptyDaryl(p,[{rank:m.rank,cards:chosen,target:m}]))return note('Keep a card to discard — you need the required books before going out.');
+          saveUndo();m.cards.push(...chosen);removeChosen(chosen);render();
+          if(!completeDarylLaydown())note('Added cards to your '+m.rank+' meld.');
+        };
+      }
+      z.append(e);
+    });
+  };
+</script><script>
+  /* A wild-only bot state must still resolve its turn; never leave the table waiting on a failed bot action. */
+  function safeBotFallback(name){
+    const p=S.players[name];
+    if((!p.hand.length||(p.phase==='Foot'&&!booksOK(p)&&p.hand.length<=1))&&S.stock.length)deal(p,Math.min(2,S.stock.length));
+    const choices=p.hand.filter(c=>!wild(c));
+    const discard=(choices.length?choices:p.hand).slice().sort((a,b)=>V[a.rank]-V[b.rank])[0];
+    if(discard&&!(p.phase==='Foot'&&!booksOK(p)&&p.hand.length<=1)){removeBot(p,[discard]);$('discard').textContent=discard.rank==='JOKER'?'★':discard.rank+discard.suit;}
+  }
+  botRound=function(){
+    const current=S.active;
+    if(!current||current==='Daryl')return;
+    try{botTurn(current)}catch(error){
+      console.warn('Recovered a bot turn',error);
+      safeBotFallback(current);
+    }
+    if(!S.active)return;
+    const next=names[(names.indexOf(current)+1)%names.length];
+    S.active=next;render();
+    if(next==='Daryl'){note('Your turn — click the draw pile when ready.');return;}
+    note(next+' is taking a turn…');setTimeout(botRound,700);
+  };
+</script><style>
+  /* Deployment assets: local relative paths work on Render and in a cloned repository. */
+  .avatar{background-image:url('assets/player-portraits-reference.png')}
+  .deck{background-image:url('assets/card-back.png')}
+</style></body></html>
