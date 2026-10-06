@@ -246,7 +246,7 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   .zone.daryl .meld:not(.closed){width:128px;min-width:0}
   @media(max-width:700px){.zone.cristi{top:calc(34% + 58px);left:8px}.zone.daryl{display:grid;flex-wrap:wrap;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:initial}}
 </style><script>
-  document.querySelector('.version').textContent='v1.8';
+  document.querySelector('.version').textContent='v1.9';
 
   /* House rule: a red three held when somebody else goes out is 300 points to the bad. */
   score=function(name,winner){
@@ -567,4 +567,40 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   $('discard').onclick=()=>discardAtPile();
   $('discard').ondragover=event=>event.preventDefault();
   $('discard').ondrop=event=>{event.preventDefault();discardAtPile(dragCard)};
+</script><style>
+  /* Tablet-first table: the table gets the whole screen and each player has a distinct band. */
+  .piles{left:50%;top:40%}
+  @media (min-width:701px) and (max-width:1100px){
+    .layout{grid-template-columns:1fr;padding:0}.rail{display:none}.table{border-radius:20px}
+    .seat.cristi{top:28%;left:12px}.zone.cristi{top:calc(28% + 58px);left:12px;max-width:250px}
+    .zone.daryl{bottom:158px;width:calc(100% - 24px);flex-wrap:nowrap;gap:5px}
+    .zone.daryl .meld,.zone.daryl .meld:not(.closed){flex:1 1 0;width:auto;min-width:0;max-width:116px}
+    .zone.daryl .mini{width:19px;height:19px;min-width:19px;padding:1px;font-size:11px}
+    .actions{bottom:112px}.hand{bottom:18px;max-width:none;transform:translateX(-50%)}
+    .piles{left:50%;top:40%}
+  }
+  @media(max-width:700px){
+    .hand{left:50%;transform:translateX(-50%)!important;max-width:none}
+    .hand .card{margin-left:0}
+    .piles{left:50%;top:37%}
+  }
+</style><script>
+  /* Expand cards as far as possible, only overlapping when they would cross Daryl's name box. */
+  renderHand=function(){
+    const hand=$('hand');hand.replaceChildren();
+    S.players.Daryl.hand.forEach(card=>hand.append(cardNode(card)));
+    const cards=[...hand.children],table=document.querySelector('.table'),seat=$('seatDaryl');
+    if(!cards.length||!table||!seat)return;
+    const tableRect=table.getBoundingClientRect(),seatRect=seat.getBoundingClientRect();
+    const protectedLeft=Math.max(0,seatRect.right-tableRect.left+14);
+    const safeWidth=Math.max(260,Math.min(tableRect.width-24,2*(tableRect.width/2-protectedLeft)));
+    hand.style.width=safeWidth+'px';hand.style.maxWidth='none';hand.style.justifyContent='center';
+    if(cards.length>1){
+      const cardWidth=cards[0].getBoundingClientRect().width||62;
+      const overlap=Math.min(cardWidth*.62,Math.max(0,(cards.length*cardWidth-safeWidth)/(cards.length-1)));
+      cards.slice(1).forEach(card=>card.style.marginLeft='-'+overlap+'px');
+    }
+  };
+  let handResizeTimer;
+  new ResizeObserver(()=>{clearTimeout(handResizeTimer);handResizeTimer=setTimeout(renderHand,0)}).observe(document.querySelector('.table'));
 </script></body></html>
