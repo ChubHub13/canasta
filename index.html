@@ -246,7 +246,7 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   .zone.daryl .meld:not(.closed){width:128px;min-width:0}
   @media(max-width:700px){.zone.cristi{top:calc(34% + 58px);left:8px}.zone.daryl{display:grid;flex-wrap:wrap;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:initial}}
 </style><script>
-  document.querySelector('.version').textContent='v1.6';
+  document.querySelector('.version').textContent='v1.7';
 
   /* House rule: a red three held when somebody else goes out is 300 points to the bad. */
   score=function(name,winner){
@@ -485,4 +485,38 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   /* Deployment assets: local relative paths work on Render and in a cloned repository. */
   .avatar{background-image:url('assets/player-portraits-reference.png')}
   .deck{background-image:url('assets/card-back.png')}
-</style></body></html>
+</style><style>
+  /* 25% smaller cards create dedicated lanes for seats, melds, controls, and piles. */
+  .card{width:62px;height:86px;padding:6px 7px;font-size:18px}
+  .suit{left:20px;bottom:5px;font-size:21px}.corner{right:5px;bottom:5px;font-size:10px}
+  .card[data-rank="JOKER"] .suit{font-size:29px;left:18px;bottom:24px}
+  .card.selected{transform:translateY(-10px)}
+  .mini,.zone.daryl .mini{width:18px;height:18px;min-width:18px;padding:1px;font-size:11px}
+  .booktop{width:27px;height:29px;margin:0 auto;padding-top:1px;font-size:13px}
+  .meld,.meld.closed{height:43px;padding:2px}
+  .zone.cristi{top:calc(34% + 58px);left:12px;max-width:260px}
+  .zone.daryl{bottom:157px}
+  .actions{bottom:121px}
+  .piles{left:62%;top:45%;gap:30px}
+  @media(max-width:700px){
+    .card{width:62px;height:86px}
+    .zone.daryl{bottom:145px}.actions{bottom:112px}.piles{left:58%;top:39%}
+  }
+</style><script>
+  /* Selection is deliberate on touch devices: discarding requires the visible Discard Selected button. */
+  cardNode=function(c){
+    const e=document.createElement('div');
+    e.className='card '+((c.suit==='♥'||c.suit==='♦')?'red ':'')+(wild(c)?'wild':'');
+    e.dataset.id=c.id;e.dataset.rank=c.rank;e.dataset.suit=c.suit;e.draggable=true;
+    e.innerHTML=c.rank+'<span class="suit">'+c.suit+'</span><i class="corner">'+c.rank+'</i>';
+    e.onclick=()=>e.classList.toggle('selected');
+    e.ondragstart=()=>dragCard=c;
+    e.ondragover=event=>event.preventDefault();
+    e.ondrop=event=>{
+      event.preventDefault();
+      const hand=S.players.Daryl.hand,from=hand.findIndex(card=>card.id===dragCard.id),to=hand.findIndex(card=>card.id===c.id);
+      if(from>=0&&to>=0){const [moved]=hand.splice(from,1);hand.splice(to,0,moved);renderHand();}
+    };
+    return e;
+  };
+</script></body></html>
