@@ -246,7 +246,7 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   .zone.daryl .meld:not(.closed){width:128px;min-width:0}
   @media(max-width:700px){.zone.cristi{top:calc(34% + 58px);left:8px}.zone.daryl{display:grid;flex-wrap:wrap;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:initial}}
 </style><script>
-  document.querySelector('.version').textContent='v1.7';
+  document.querySelector('.version').textContent='v1.8';
 
   /* House rule: a red three held when somebody else goes out is 300 points to the bad. */
   score=function(name,winner){
@@ -519,4 +519,52 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
     };
     return e;
   };
+</script><style>
+  /* A 40% narrower rail gives the play table substantially more room. */
+  .layout{grid-template-columns:138px minmax(0,1fr)}
+  .rail .box{padding:11px 10px}.round strong{font-size:23px}.score{padding:6px 0}
+
+  /* Larger, uniform-height melds: a closed book never grows taller than an open meld. */
+  .meld,.meld.closed{height:52px;min-height:52px;max-height:52px;padding:3px}
+  .mini,.zone.daryl .mini{width:22px;height:22px;min-width:22px;padding:2px;font-size:13px}
+  .booktop{width:30px;height:32px;margin:0 auto;padding-top:2px;font-size:14px}
+  .empty{cursor:pointer}.zone.daryl .meld{cursor:pointer}
+  .zone.daryl{bottom:165px}.actions{bottom:126px}
+  @media(max-width:700px){.layout{grid-template-columns:1fr}.zone.daryl{bottom:150px}.actions{bottom:116px}}
+</style><script>
+  function addSelectedToMeld(m,providedCards){
+    if(!S.drawn)return note('Click the draw pile before laying down.');
+    const p=S.players.Daryl,chosen=providedCards||selectedCards();
+    if(!chosen.length)return note('Select one or more matching cards first.');
+    if(!chosen.every(card=>wild(card)||card.rank===m.rank)||!wildBalance(m,chosen))return note('Only matching cards are allowed, and wilds cannot outnumber naturals.');
+    if(!canEmptyDaryl(p,[{rank:m.rank,cards:chosen,target:m}]))return note('Keep a card to discard — you need the required books before going out.');
+    saveUndo();m.cards.push(...chosen);removeChosen(chosen);render();
+    if(!completeDarylLaydown())note('Added cards to your '+m.rank+' meld.');
+  }
+  renderMelds=function(n){
+    const z=$('meld'+n);z.replaceChildren();
+    S.players[n].melds.sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(m=>{
+      const e=document.createElement('div'),closed=m.cards.length>=7,dirty=m.cards.some(wild);
+      e.className='meld '+(closed?'closed':'');e.dataset.rank=m.rank;e.innerHTML='<b>'+m.rank+' MELD</b>';
+      if(closed){const top=document.createElement('i');top.className='booktop '+(dirty?'dirty':'clean');top.textContent=m.rank+(dirty?'♠':'♥');e.append(top)}
+      else m.cards.slice().sort((a,b)=>ORDER[a.rank]-ORDER[b.rank]).forEach(c=>e.append(mini(c)));
+      if(n==='Daryl'){
+        e.onclick=event=>{event.stopPropagation();addSelectedToMeld(m)};
+        e.ondragover=event=>event.preventDefault();
+        e.ondrop=event=>{event.preventDefault();event.stopPropagation();let chosen=selectedCards();if(!chosen.some(card=>card.id===dragCard?.id))chosen=[dragCard];addSelectedToMeld(m,chosen)};
+      }
+      z.append(e);
+    });
+  };
+  function discardAtPile(card){
+    if(card){
+      document.querySelectorAll('.card.selected').forEach(node=>node.classList.remove('selected'));
+      const node=[...document.querySelectorAll('.card')].find(item=>item.dataset.id===card.id);
+      if(node)node.classList.add('selected');
+    }
+    discardSelected();
+  }
+  $('discard').onclick=()=>discardAtPile();
+  $('discard').ondragover=event=>event.preventDefault();
+  $('discard').ondrop=event=>{event.preventDefault();discardAtPile(dragCard)};
 </script></body></html>
