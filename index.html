@@ -246,7 +246,7 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   .zone.daryl .meld:not(.closed){width:128px;min-width:0}
   @media(max-width:700px){.zone.cristi{top:calc(34% + 58px);left:8px}.zone.daryl{display:grid;flex-wrap:wrap;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:initial}}
 </style><script>
-  document.querySelector('.version').textContent='v1.9';
+  document.querySelector('.version').textContent='v2.0';
 
   /* House rule: a red three held when somebody else goes out is 300 points to the bad. */
   score=function(name,winner){
@@ -603,4 +603,37 @@ $('start').onclick=startGame;$('deck').onclick=draw;$('lay').onclick=layDown;$('
   };
   let handResizeTimer;
   new ResizeObserver(()=>{clearTimeout(handResizeTimer);handResizeTimer=setTimeout(renderHand,0)}).observe(document.querySelector('.table'));
+</script><style>
+  /* Compact melds and strictly horizontal closed-book stacks. */
+  .meld,.meld.closed{height:43px;min-height:43px;max-height:43px;padding:2px}
+  .booktop{position:relative;top:auto;transform:none;width:28px;height:29px;margin:0 auto;padding-top:1px;font-size:13px;box-shadow:-4px 0 #f4eee3,-8px 0 #e8e0d3}
+  .meld.closed .booktop{top:auto;transform:none}
+
+  /* Empty, centered basket mark — no emoji contents. */
+  .crown{position:relative;color:transparent}
+  .crown::before{content:'';position:absolute;left:50%;top:20px;transform:translate(-50%,-50%);width:23px;height:12px;border:2px solid #ffc640;border-top:0;border-radius:2px 2px 7px 7px;background:repeating-linear-gradient(90deg,transparent 0 4px,#ffc640 4px 5px),repeating-linear-gradient(0deg,#6d305f 0 3px,#9d5a7b 3px 4px);filter:none}
+  .crown::after{content:'';position:absolute;left:50%;top:9px;transform:translateX(-50%);width:14px;height:8px;border:2px solid #ffc640;border-bottom:0;border-radius:10px 10px 0 0}
+</style><script>
+  /* Opening points live only in the table-seat labels, not the sidebar. */
+  renderSeat=function(name){
+    const p=S.players[name],type=p.bot?'Bot':'Live',phase=p.phase==='Foot'?'<span class="phase-foot">Foot</span>':'Hand';
+    const opening=p.opened?'':' · '+threshold(name)+' to lay down',count=p.bot?' · '+p.hand.length+' cards':'';
+    $('seat'+name).querySelector('b').textContent=name+count;
+    $('status'+name).innerHTML=type+' · '+phase;
+    $('seatStatus'+name).innerHTML=type+' · '+phase+opening;
+  };
+
+  /* Last-resort rolling safeguard for every human laydown path. */
+  const renderWithRollingSafety=render;
+  let resolvingHandToFoot=false;
+  render=function(){
+    renderWithRollingSafety();
+    const p=S.players.Daryl;
+    if(!resolvingHandToFoot&&S.active==='Daryl'&&p.phase==='Hand'&&!p.hand.length){
+      resolvingHandToFoot=true;
+      p.phase='Foot';deal(p,11);renderWithRollingSafety();
+      resolvingHandToFoot=false;
+      note('Rolling! Your Hand is out — your Foot is now in play. Continue your turn.');
+    }
+  };
 </script></body></html>
